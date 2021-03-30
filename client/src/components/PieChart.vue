@@ -1,16 +1,36 @@
 <script>
-import { Doughnut } from "vue-chartjs";
+import { Pie } from "vue-chartjs";
+
 export default {
-  extends: Doughnut,
-  props: ["data", "options"],
+  extends: Pie,
+  props: ["labels", "data"],
   mounted() {
-    // this.chartData is created in the mixin.
-    // If you want to pass options please create a local options object
-    this.renderChart(this.data, {
-      borderWidth: "10px",
-      hoverBackgroundColor: "red",
-      hoverBorderWidth: "10px",
-    });
+    this.gradient = this.$refs.canvas
+      .getContext("2d")
+      .createLinearGradient(0, 0, 0, 450);
+    this.gradient2 = this.$refs.canvas
+      .getContext("2d")
+      .createLinearGradient(0, 0, 0, 450);
+
+    this.gradient.addColorStop(0, "rgba(255, 0,0, 0.5)");
+    this.gradient.addColorStop(0.5, "rgba(255, 0, 0, 0.25)");
+    this.gradient.addColorStop(1, "rgba(255, 0, 0, 0)");
+
+    this.gradient2.addColorStop(0, "rgba(0, 231, 255, 0.9)");
+    this.gradient2.addColorStop(0.5, "rgba(0, 231, 255, 0.25)");
+    this.gradient2.addColorStop(1, "rgba(0, 231, 255, 0)");
+    this.renderChart(
+      {
+        labels: this.labels,
+        datasets: [
+          {
+            backgroundColor: "#00D8FF",
+            data: this.data,
+          },
+        ],
+      },
+      { responsive: true, maintainAspectRatio: false }
+    );
   },
 };
 </script>

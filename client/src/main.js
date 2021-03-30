@@ -9,8 +9,9 @@ import Home from "./components/Home.vue";
 import Name from "./components/Name.vue";
 import Semester from "./components/Semester.vue";
 import Department from "./components/Department.vue";
-
+import VueChartJs from "vue-chartjs";
 Vue.use(BootstrapVue);
+Vue.use(VueChartJs);
 Vue.use(IconsPlugin);
 Vue.use(VueRouter);
 const routes = [

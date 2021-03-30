@@ -2,73 +2,25 @@
 import { Bar } from "vue-chartjs";
 
 export default {
-  mixins: [Bar],
+  extends: Bar,
+  props: ["labels", "data"],
   mounted: function() {
-    // Overwriting base render method with actual data.
-    console.log(
-      "chart values:",
-      this.realData,
-      "chart labels:",
-      this.labelData
-    );
-    this.renderChart(this.datacollection, this.options);
-  },
-  props: ["labelData", "realData"],
-  data() {
-    return {
-      datacollection: {
-        labels: this.labelData,
+    console.log("mounted");
+    console.log("labels:", this.labels, "data:", this.data);
+
+    this.renderChart(
+      {
+        labels: this.labels,
         datasets: [
           {
             label: "Data One",
             backgroundColor: "#f87979",
-            pointBackgroundColor: "white",
-            borderWidth: 1,
-            pointBorderColor: "#249EBF",
-            data: this.realData,
+            data: this.data,
           },
         ],
       },
-      options: {
-        scales: {
-          yAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-              gridLines: {
-                display: true,
-              },
-            },
-          ],
-          xAxes: [
-            {
-              ticks: {
-                beginAtZero: true,
-              },
-              gridLines: {
-                display: false,
-              },
-            },
-          ],
-        },
-        legend: {
-          display: false,
-        },
-        tooltips: {
-          enabled: true,
-          mode: "single",
-          callbacks: {
-            label: function(tooltipItems) {
-              return "" + tooltipItems.yLabel;
-            },
-          },
-        },
-        responsive: true,
-        maintainAspectRatio: false,
-        height: 200,
-      },
-    };
+      { responsive: true, maintainAspectRatio: false }
+    );
   },
 };
 </script>

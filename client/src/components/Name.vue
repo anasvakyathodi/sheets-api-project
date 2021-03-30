@@ -3,11 +3,16 @@
     <div class="h3 m-2">Category:Name - {{ input }}</div>
     <b-container fluid="md" class="mt-5">
       <bar-chart
-        v-bind:labelData="labels"
-        v-bind:realData="chartData"
+        v-if="chartData.length > 0"
+        v-bind:data="chartData"
+        v-bind:labels="labels"
       ></bar-chart>
       <div class="mt-5">
-        <pie-chart :data="pieChartData" :options="pieChartOptions"></pie-chart>
+        <pie-chart
+          v-if="chartData.length > 0"
+          v-bind:data="chartData"
+          v-bind:labels="labels"
+        ></pie-chart>
       </div>
     </b-container>
   </div>
@@ -17,11 +22,13 @@
 import axios from "axios";
 import BarChart from "./BarChart";
 import PieChart from "./PieChart";
+
 export default {
   name: "name",
   components: {
     "bar-chart": BarChart,
     "pie-chart": PieChart,
+    //  "sample-chart": SampleChart,
   },
   mounted() {
     const self = this;
@@ -42,28 +49,12 @@ export default {
         console.log(marks);
       })
       .catch((err) => console.log(err));
-    this.renderChart(this.chartdata, this.options);
   },
   data() {
     return {
       input: undefined,
       chartData: [],
       labels: [],
-      pieChartOptions: {
-        hoverBorderWidth: 20,
-      },
-      pieChartData: {
-        hoverBackgroundColor: "red",
-        hoverBorderWidth: 10,
-        labels: this.labels,
-        datasets: [
-          {
-            label: "Data One",
-            // backgroundColor: ["#41B883", "#E46651", "#00D8FF"],
-            data: this.chartData,
-          },
-        ],
-      },
     };
   },
   methods: {
