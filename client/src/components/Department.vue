@@ -3,9 +3,17 @@
     <div class="h3 m-2">Category:Department - {{ input }}</div>
     <b-container fluid="md" class="mt-5">
       <bar-chart
-        v-bind:labelData="labels"
-        v-bind:realData="chartData"
+        v-if="chartData.length > 0"
+        v-bind:labels="labels"
+        v-bind:data="chartData"
       ></bar-chart>
+      <div class="mt-5">
+        <pie-chart
+          v-if="chartData.length > 0"
+          v-bind:data="chartData"
+          v-bind:labels="labels"
+        ></pie-chart>
+      </div>
     </b-container>
   </div>
 </template>
@@ -13,11 +21,12 @@
 <script>
 import axios from "axios";
 import BarChart from "./BarChart";
-
+import PieChart from "./PieChart";
 export default {
-  name: "name",
+  name: "department",
   components: {
     "bar-chart": BarChart,
+    "pie-chart": PieChart,
   },
   mounted() {
     const self = this;

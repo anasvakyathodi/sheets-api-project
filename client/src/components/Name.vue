@@ -42,7 +42,10 @@ export default {
       .get(endpoint)
       .then((res) => {
         this.data = res.data;
-        const sems = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"];
+        const unique = (value, index, self) => {
+          return self.indexOf(value) === index;
+        };
+        const sems = res.data.map((el) => el.semester).filter(unique);
         this.labels = sems;
         const marks = self.findSum(res.data);
         this.chartData = marks;
@@ -59,12 +62,11 @@ export default {
   },
   methods: {
     findSum(data) {
-      var sem = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"];
       let marks = 0;
       var semIndex = 0;
       var semWiseData = [];
       data.forEach((el) => {
-        if (el.semester === sem[semIndex]) {
+        if (el.semester === this.labels[semIndex]) {
           marks = marks + parseFloat(el.mark);
         } else {
           semWiseData.push(marks);
